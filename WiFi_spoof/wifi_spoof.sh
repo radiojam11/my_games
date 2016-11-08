@@ -1,8 +1,9 @@
 #!/bin/bash
+#depends on macchanger
 
 if [ $# -lt 4 -o $EUID -ne 0 ]; then 
 	echo "[!] Usage: "$0" iface_name wifi_name target_ip target_mac"
-	echo "[!] Need to be root ! "
+	echo "[!] Need to be root ! Depends on macchanger ! "
 	exit 1
 fi
 
