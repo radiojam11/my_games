@@ -1,24 +1,13 @@
 #!/bin/bash
 #Usage: camaleonte iface wifi target gateway
 #Requires arping of iputils package
-if [ $# -lt 3 -o $EUID -ne 0 ]; then 
-	echo "[!] Usage: camaleonte iface_name wifi_name target_ip gateway_ip"
+if [ $# -lt 4 -o $EUID -ne 0 ]; then 
+	echo "[!] Usage: "$0" iface_name wifi_name target_ip target_mac"
 	echo "[!] Need to be root ! "
 	exit 1
 fi
-p="$( arping -I $1 -f $3 -w 3 )"
 
-reg="\[(.*)\]"
-
-if [[ $p =~ $reg ]]
-then
-	echo "${BASH_REMATCH[1]}"
-else
-	echo "[!] cannot find mac address of target"
-	exit 1
-fi
-
-mac="${BASH_REMATCH[1]}"
+mac=$4
 ip=$3
 ap=$2
 iface=$1
