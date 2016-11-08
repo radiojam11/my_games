@@ -1,6 +1,6 @@
 #!/bin/bash
 #Usage: camaleonte iface wifi target gateway
-
+#Requires arping of iputils package
 if [ $# -lt 3 -o $EUID -ne 0 ]; then 
 	echo "[!] Usage: camaleonte iface_name wifi_name target_ip gateway_ip"
 	echo "[!] Need to be root ! "
