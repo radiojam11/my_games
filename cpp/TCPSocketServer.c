@@ -9,7 +9,7 @@
 #include <sys/types.h>
 #include <signal.h>
  
-
+ 
 // *************************** DECLARING FUNCTIONS **********************************
 
 void error(const char* msg);          // LOG Errors
@@ -30,7 +30,7 @@ int main(void){
 
  struct sockaddr_in serv_data;    // the type of connection (INET/UNIX) 
                                   // the accepted ip range
-								  // and the port on wich we will listen are stored in this struct.
+                                  // and the port on wich we will listen are stored in this struct.
  
 
 
@@ -44,12 +44,12 @@ int main(void){
  int enable=1;
  setsockopt(passive_fd,           // Takes socket as first argoument
             SOL_SOCKET,           // level as second. this is the protocol level at wich the opt resides
-			                      // this is the SOcket Level, if e.g. an option need to be interpreted 
-								  // by the TCP the right chose will be IPPROTO_TCP.
-			SO_REUSEADDR,         // This will enable the reuse of the socket even if it is in TIME_WAIT
-			                      // that is the delay used to ensure that the other peer receives ACK
-			&enable,              // New option value, 1 as enabled.
-			sizeof(enable));      // Size of new option. 
+                                  // this is the SOcket Level, if e.g. an option need to be interpreted 
+                                  // by the TCP the right chose will be IPPROTO_TCP
+            SO_REUSEADDR,         // This will enable the reuse of the socket even if it is in TIME_WAIT
+                                  // that is the delay used to ensure that the other peer receives ACK
+            &enable,              // New option value, 1 as enabled.
+            sizeof(enable));      // Size of new option. 
                                   // If you want to add other options such as SO_KEEPALIVE add it as a logic or. 
 
  // Initialize data structure and fill struct with metadata
@@ -86,11 +86,11 @@ int main(void){
 
    client_fd = accept ( passive_fd, NULL, NULL );    // Accept ( server_data, client_data, client_len )
                                                      // where client_data are optional metadata about
-													 // special requests.
+                                                     // special requests.
    
    if( client_fd >=0 ){                              // Mantain client count in order to exit cleanly
      printf("[+] Handling a new connection\n");
-	 child_count++;                                  // and spawn the client handler.
+	 child_count++;                              // and spawn the client handler.
 	 handle_client( client_fd );   
    }
 
@@ -99,23 +99,23 @@ int main(void){
 }
 
 void handle_client(int client_fd){
-	int pid=fork();                                  // Fork and create child for client connection.
+	int pid=fork();                               // Fork and create child for client connection.
 
 	if( pid<0  ) error("ERROR trying to fork.");
-	if( pid>0  ) { close(client_fd); return; }       // lets free the client_fd in order to handle other conn.
-    if( pid==0 ) {                                   // If PID is 0 we are in the child code.
+	if( pid>0  ) { close(client_fd); return; }    // lets free the client_fd in order to handle other conn.
+    if( pid==0 ) {                                    // If PID is 0 we are in the child code.
 
 	  char data_buff[1024];
 
-	  memset (data_buff,'\0',sizeof(data_buff));     // Init buffer
+	  memset (data_buff,'\0',sizeof(data_buff));  // Init buffer
 	  
       strcpy(data_buff,"Hi, sir.\n");
 	  write (client_fd,data_buff,sizeof(data_buff));
       
-	  // shutdown(client_fd,SHUT_RDWR);               // This isn't needed but can be used to close only one way
-	                                                  // for example using SHUT_RD
+	  // shutdown(client_fd,SHUT_RDWR);            // This isn't needed but can be used to close only one way
+	                                               // for example using SHUT_RD
 	  
-	  close(client_fd);                               // This frees the socket descriptor
+	  close(client_fd);                            // This frees the socket descriptor
 	  exit(0);
 	}
 }
