@@ -1,7 +1,7 @@
 #include <fcntl.h>
 
 /** Returns 1 on success, or -1 if there was an error */
-int SetSocketBLOCK(int fd, int blocking)
+int set_socketBLOCK(int fd, int blocking)
 {
    if (fd < 0) return -1;
 
